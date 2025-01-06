@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+<!--        <meta-->
+<!--                http-equiv="Content-Security-Policy"-->
+<!--                content="default-src 'self'; script-src 'self'"-->
+<!--        />-->
+<!--        <meta-->
+<!--                http-equiv="X-Content-Security-Policy"-->
+<!--                content="default-src 'self'; script-src 'self'"-->
+<!--        />-->
+        <title>Weather App by The Weather Bridage</title>
+
+        <!--  Leaflet.css  -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+              integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+              crossorigin=""/>
+        <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.0/css/boxicons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="libraries/semantic.css">
+        <link rel="stylesheet" href="styles.css">
+        <script src="libraries/bodymovin.js"></script>
+    </head>
+
+    <body>
+        <div id="error-message"></div>
+        <div id="splashScreen">
+            <h1>Welcome to the Weather App</h1>
+            <h4>looooking outside for you...</h4>
+            <div id ='circle'></div>
+        </div>
+        <div id="error_banner">
+            <h1>An error happened. Please check your internet connection and restart application</h1>
+            <div id="sky">
+                <div id="cloud-base"></div>
+                <div id="cloud1" class="cloud"></div>
+                <div id="cloud2" class="cloud"></div>
+                <div id="cloud3" class="cloud"></div>
+                <div id="cloud4" class="cloud"></div>
+                <div id="cloud-eye-left" class="cloud-eye"></div>
+                <div id="cloud-eye-right" class="cloud-eye"></div>
+                <div class="drop" id="drop-left-eye">
+                    <div class="drop-top"></div>
+                    <div class="drop-dot"></div>
+                </div>
+                <div class="drop" id="drop-right-eye">
+                    <div class="drop-top"></div>
+                    <div class="drop-dot"></div>
+                </div>
+                <div id="cloud-cheek-right" class="cloud-cheek"></div>
+                <div id="cloud-cheek-left" class="cloud-cheek"></div>
+                <div id="cloud-mouth">)</div>
+                <div id="rain">
+                    <div class="drop" id="drop1">
+                        <div class="drop-top"></div>
+                        <div class="drop-dot"></div>
+                    </div>
+                    <div class="drop" id="drop2">
+                        <div class="drop-top"></div>
+                        <div class="drop-dot"></div>
+                    </div>
+                    <div class="drop" id="drop3">
+                        <div class="drop-top"></div>
+                        <div class="drop-dot"></div>
+                    </div>
+                    <div class="drop" id="drop4" >
+                        <div class="drop-top"></div>
+                        <div class="drop-dot"></div>
+                    </div>
+                    <div class="drop" id="drop5">
+                        <div class="drop-top"></div>
+                        <div class="drop-dot"></div>
+                    </div>
+                    <div class="drop" id="drop6">
+                        <div class="drop-top"></div>
+                        <div class="drop-dot"></div>
+                    </div>
+                    <div class="drop" id="drop7">
+                        <div class="drop-top"></div>
+                        <div class="drop-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="locations_and_map_container">
+            <div class="locations_container">
+                <div class="location_info">
+                    <div class="location_name">
+                        <i id="apocalypseIcon" style="color: mediumpurple;" class="bx bxs-meteor weather-icon"></i>
+                        <i id="freezingIcon" style="color: lightblue;" class='bx bxs-sun weather-icon'></i>
+                        <i id="coldIcon" style="color: dodgerblue;" class='bx bxs-cloud-rain weather-icon'></i>
+                        <i id="coolIcon" style="color: deepskyblue;" class='bx bxs-cloud weather-icon'></i>
+                        <i id="warmIcon" style="color: darkorange;" class='bx bxs-sun weather-icon'></i>
+                        <i id="veryHotIcon" style="color: orangered;" class='bx bxs-hot weather-icon'></i>
+
+                        <h1><span id="temperatureTextRepresentation">Fetching...</span> <span id="tempNum">XX</span></h1>
+                    </div>
+                    <div style="height: min-content;align-items: flex-end;z-index: 10;">
+                        <div class="location_buttons">
+                            <div class="ui form" style="width: 100%;">
+                                <div class="field">
+                                    <select id="locationSelect"  multiple="" class="ui fluid dropdown">
+                                        <option value="0">Fetching devices...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="position: absolute; top: 105%; font-size: 12px;z-index: 2;color: black;">*average airtime taken: <span id="averageAirtime">...</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="time_buttons">
+                    <button id="oneDay">1 day</button>
+                    <button id="oneWeek">7 days</button>
+                    <button id="oneMonth">30 days</button>
+                    <button id="customInput">
+                        <input placeholder="365"> days</button>
+                </div>
+            </div>
+            <div class="map_container">
+                <div id="map">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="graph_container">
+            <div id="chart"></div>
+        </div>
+
+        <div class="bottom_buttons_container">
+            <button class="toggle-button" id="humidity">Humidity</button>
+            <button class="toggle-button" id="illuminance">Illuminance</button>
+            <button class="toggle-button pressed" id="temperature">Temperature</button>
+            <button class="toggle-button" id="pressure">Pressure</button>
+            <button class="toggle-button" id="battery">Battery</button>
+        </div>
+
+    </body>
+
+    <script>
+        const animData = {
+            wrapper: document.getElementById('circle'),
+            animType: 'svg',
+            loop: true,
+            prerender: true,
+            autoplay: true,
+            path: 'circle.json',
+        };
+        const anim = bodymovin.loadAnimation(animData);
+
+        anim.setSpeed(2);
+
+        let welcomeScreen = document.getElementById('splashScreen');
+        setTimeout(function () {
+            welcomeScreen.style.display = "none";
+        }, 2000);
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.ui.dropdown').dropdown();
+        });
+    </script>
+
+    <!--  Leaflet.js  -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <script src="map.js"></script>
+
+    <script src="libraries/apexcharts.js"></script>
+
+    <script src="graph.js"></script>
+</html>

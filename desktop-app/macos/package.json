@@ -1,0 +1,63 @@
+{
+  "name": "weather-app",
+  "version": "2.1.3",
+  "description": "",
+  "main": "main.js",
+  "icon": "logo.icns",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/.bin/electron .",
+    "pack": "../node_modules/.bin/electron-builder --dir",
+    "dist": "node_modules/.bin/electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/AZaUk/TheWeatherBrigade.git"
+  },
+  "author": "TheWeatherBrigade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AZaUk/TheWeatherBrigade/issues"
+  },
+  "homepage": "https://github.com/AZaUk/TheWeatherBrigade#readme",
+  "dependencies": {
+    "glasstron": "^0.1.1",
+    "mssql": "^10.0.1"
+  },
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.theweatherbrigade.weatherapp",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "logo.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "icon": "logo.icns",
+      "target": [
+        {
+          "target": "dmg"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage"
+        }
+      ]
+    }
+  }
+}

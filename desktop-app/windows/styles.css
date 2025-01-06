@@ -1,0 +1,541 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+html {
+    height: 100%;
+    width: 100%;
+    -webkit-app-region: drag;
+    background: white;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    color: white;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    padding: 0;
+    display: grid;
+    justify-items: stretch;
+    align-items: stretch;
+    grid-template-rows: 45% 45% 10%;
+    margin: 24px;
+    gap: 12px;
+    height: calc(100% - 64px);
+    background: white;
+}
+
+.ui.multiple.dropdown > .label {
+    border: 2px solid rgba(150, 150, 150, 0.4);
+    color: black;
+}
+
+.ui.label > .close.icon,
+.ui.label > .delete.icon {
+    color: black;
+}
+
+.ui.selection.dropdown > .search.icon,
+.ui.selection.dropdown > .delete.icon,
+.ui.selection.dropdown > .dropdown.icon {
+    color: black;
+}
+
+::placeholder {
+    color: black;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+input {
+    width: 40px;
+    height: 100%;
+    padding: 0 4px;
+    border: 2px solid rgba(150, 150, 150, 0.4);
+    background: rgba(150, 150, 150, 0.15);
+    border-radius: 4px;
+    font-weight: bold;
+    color: black;
+    transition: 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+button {
+    width: 24%;
+    height: 100%;
+    color: black;
+    font-weight: 800;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    border: 2px solid rgba(150, 150, 150, 0.4);
+    background: rgba(150, 150, 150, 0.4);
+    backdrop-filter: blur(24px) saturate(150%);
+    border-radius: 8px;
+    transition: 0.3s;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+    z-index: 3;
+}
+
+button:hover,
+button:hover input,
+button:hover ::placeholder {
+    background: rgb(200, 200, 200);
+    color: #515151;
+}
+
+button.pressed {
+    background: white;
+    color: black;
+    box-shadow: 0 0 2px 2px inset rgba(0, 0, 0, 0.4);
+}
+
+/* Error */
+#error_banner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(20px) contrast(25%);
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+    color: white;
+    z-index: 10000;
+    display: none;
+    background: radial-gradient(black, rgba(0, 0, 0, 0.5));
+}
+#error_banner h1 {
+    padding: 0 64px;
+}
+
+#error-message {
+    display: flex;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: red;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 9000;
+}
+
+@keyframes slideError {
+    from { top: -15%; }
+    to { top: 2% }
+}
+
+@keyframes slideErrorOut {
+    from { top: 2%; }
+    to { top: -15% }
+}
+
+/* Welcome screen */
+#splashScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: grid;
+    grid-template-rows: 45% auto 50%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 9999;
+    backdrop-filter: blur(2px);
+}
+
+#splashScreen h1 {
+    font-size: 36px;
+    font-weight: 900;
+}
+
+#circle{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    margin: auto;
+}
+
+/* Location */
+.locations_and_map_container {
+    display: grid;
+    grid-template-columns: 65% 35%;
+}
+
+.locations_container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.location_info {
+    height: 70%;
+    display: grid;
+}
+
+.location_name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.location_name .weather-icon {
+    font-size: 40px;
+    display: none;
+}
+
+.location_name svg {
+    fill: black;
+    width: 30px;
+    height: 30px;
+}
+
+.location_name h1 {
+    font-size: 40px;
+    font-weight: 900;
+    margin: 0;
+    user-select: none;
+    color: black;
+    font-family: 'Inter', sans-serif;
+}
+
+.location_buttons {
+    background: rgba(150, 150, 150, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    min-height: 40px;
+    height: 20%;
+    max-width: 90%;
+    border-radius: 8px;
+    border: 2px solid rgba(150, 150, 150, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-app-region: no-drag;
+    z-index: 10;
+}
+
+.location_buttons #locationSelect {
+    width: 100%;
+    height: 100%;
+    margin: 0 8px;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    background: transparent;
+    color: black;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Time buttons */
+.time_buttons {
+    min-height: 40px;
+}
+
+.time_buttons button {
+    max-width: 160px;
+}
+
+/* Map */
+.map_container {
+    border: 2px solid rgba(150, 150, 150, 0.4);
+    border-radius: 8px;
+    -webkit-app-region: no-drag;
+}
+
+#map {
+    height: 100%;
+    border-radius: 6px;
+}
+
+.leaflet-touch div.leaflet-bar a {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+}
+
+.leaflet-touch a.leaflet-control-zoom-in,
+.leaflet-touch a.leaflet-control-zoom-out {
+    font-size: 14px;
+}
+
+/* Graph */
+.graph_container {
+    height: 100%;
+    border: 2px solid rgba(150, 150, 150, 0.4);
+    border-radius: 8px;
+    box-sizing: border-box;
+    -webkit-app-region: no-drag;
+}
+
+.apexcharts-menu {
+    color: black;
+    font-weight: 500;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark div.apexcharts-tooltip-title {
+    background: rgba(30, 30, 30, .8);
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+    display: none; /* remove this to see tooltip to the bottom of the line */
+}
+
+/* Bottom buttons */
+.bottom_buttons_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    align-items: flex-end;
+    -webkit-app-region: no-drag;
+}
+
+.bottom_buttons_container button {
+    height: 90%;
+}
+
+/* Apply some responsiveness */
+@media (min-height: 650px) {
+    body {
+        grid-template-rows: 40% 53% 7%;
+    }
+    .bottom_buttons_container button {
+        height: 48px;
+    }
+}
+@media (min-height: 750px) {
+    body {
+        grid-template-rows: 35% 58% 7%;
+    }
+
+    .location_info {
+        height: 90%;
+    }
+}
+
+@media (min-height: 750px) and (min-width: 850px) {
+    .location_name h1,
+    .location_name .weather-icon {
+        font-size: 64px;
+    }
+}
+
+@media (min-width: 900px) {
+    .bottom_buttons_container {
+        justify-content: center;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .bottom_buttons_container button {
+        width: 180px;
+    }
+}
+
+/* Error animation */
+#sky {
+    width: 400px;
+    height: 400px;
+    margin: auto;
+    position: relative;
+    z-index: -2;
+}
+
+.cloud {
+    background-color: lightgrey;
+    border-radius: 50%;
+    position: absolute;
+    width: 20%;
+    height: 20%;
+}
+
+#cloud-base {
+    position: relative;
+    width: 60%;
+    height: 20%;
+    left: 20%;
+    top: 20%;
+    background-color: lightgrey;
+}
+
+#cloud1 {
+    left: 10%;
+    top: 20%;
+}
+
+#cloud2 {
+    right: 10%;
+    top: 20%;
+}
+
+#cloud3 {
+    right: 20%;
+    top: 14%;
+}
+
+#cloud4 {
+    width: 46%;
+    height: 30%;
+    left: 20%;
+    top: 6%;
+}
+
+.cloud-eye {
+    position: absolute;
+    width: 2%;
+    height: 2%;
+    border-radius: 50%;
+    background-color: black;
+    top: 24%;
+    z-index: 3;
+}
+
+#cloud-eye-left {
+    left: 34%;
+}
+
+#cloud-eye-right {
+    right: 34%;
+    position: absolute;
+    top: 24%;
+    z-index: 2;
+}
+
+#drop-left-eye {
+    position: absolute;
+    top: 24%;
+    left: 33%;
+    animation-delay: -2s;
+}
+
+#drop-right-eye {
+    position: absolute;
+    top: 24%;
+    right: 33%;
+    animation-delay: 0s;
+}
+
+#cloud-mouth {
+    position: absolute;
+    font-size: 3em;
+    color: black;
+    transform: rotate(-90deg);
+    z-index: 10;
+    top: 30%;
+    left: 50%;
+}
+
+.cloud-cheek {
+    position: absolute;
+    width: 4%;
+    height: 4%;
+    border-radius: 50%;
+    background-color: lightpink;
+    top: 28%;
+}
+
+#cloud-cheek-left {
+    left: 15%;
+}
+
+#cloud-cheek-right {
+    right: 15%;
+}
+
+#rain {
+    position: absolute;
+    width: 65%;
+    left: 18%;
+    height: 60%;
+    bottom: 10%;
+    z-index: -1; // this way, the drops seem to drop out of the cloud - below it
+}
+
+.drop {
+    position: absolute;
+    width: 25px;
+    height: 50px;
+    animation: dropping 2.5s ease-in infinite;
+}
+
+.drop-top {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 25px solid lightsteelblue;
+    left: 2%;
+    animation: triangle-fading 2.5s infinite;
+}
+
+.drop-dot {
+    position: absolute;
+    width: 20px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: lightsteelblue;
+    top: 30%;
+    animation: dot-fading 2.5s infinite;
+}
+
+#drop1 {
+    left: 0%;
+    animation-delay: 1s;
+}
+
+#drop2 {
+    left: 16%;
+    animation-delay: 0s;
+}
+
+#drop3 {
+    left: 30%;
+    animation-delay: 2s;
+}
+
+#drop4 {
+    left: 46%;
+    animation-delay: 3s;
+}
+
+#drop5 {
+    left: 60%;
+    animation-delay: 1s;
+}
+
+#drop6 {
+    left: 76%;
+    animation-delay: 0s;
+}
+
+#drop7 {
+    left: 90%;
+    animation-delay: 2s;
+}
+
+/*----------------------- */
+/*------ animations------ */
+/*----------------------- */
+
+@keyframes dropping {
+    0% {
+        transform: translateY(0px);
+    }
+    20% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(320px);
+    }
+}
